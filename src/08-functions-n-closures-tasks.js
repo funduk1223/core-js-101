@@ -23,8 +23,8 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.asin(x))
  *
  */
-function getComposition(/* f, g */) {
-  throw new Error('Not implemented');
+function getComposition(f, g) {
+  return (x) => f(g(x));
 }
 
 
@@ -44,8 +44,8 @@ function getComposition(/* f, g */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  return (x) => x ** exponent;
 }
 
 
@@ -62,8 +62,14 @@ function getPowerFunction(/* exponent */) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...args) {
+  return (x) => {
+    let res = null;
+    for (let i = args.length; i > 0; i -= 1) {
+      res += args[args.length - i] * x ** (i - 1);
+    }
+    return res;
+  };
 }
 
 
@@ -81,8 +87,9 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const res = func();
+  return () => res;
 }
 
 
@@ -101,11 +108,16 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  if (attempts > 0) {
+    try {
+      func();
+    } catch (error) {
+      retry(func, attempts - 1);
+    }
+  }
+  return func;
 }
-
-
 /**
  * Returns the logging wrapper for the specified method,
  * Logger has to log the start and end of calling the specified function.
@@ -149,6 +161,13 @@ function logger(/* func, logFunc */) {
  */
 function partialUsingArguments(/* fn, ...args1 */) {
   throw new Error('Not implemented');
+  // return (x) => {
+  //   let res = null;
+  //   for (let i = 0; i < args1.length; i += 1) {
+  //     res += args1[i] * x ** (i - 1);
+  //   }
+  //   return fn(args1);
+  // };
 }
 
 
